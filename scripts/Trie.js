@@ -63,7 +63,7 @@ export default class Trie {
     return suggestions
   }
 
-  addDictionary(dictionary) {
+  populate(dictionary) {
     dictionary.forEach( word => {
       this.insert(word)
     })

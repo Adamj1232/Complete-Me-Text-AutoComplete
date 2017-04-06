@@ -116,7 +116,7 @@ describe('Trie functionality and tests', () => {
   it('should be able to poppulate the library with the computer dictionary', () => {
     let trie = new Trie;
 
-    trie.addDictionary(dictionary)
+    trie.populate(dictionary)
 
     assert.equal(trie.count, 235886 );
   });
@@ -207,7 +207,7 @@ describe('Trie functionality and tests', () => {
   it('should be able to poppulate the library with the computer dictionary', () => {
     let trie = new Trie;
 
-    trie.addDictionary(dictionary)
+    trie.populate(dictionary)
 
     assert.equal(trie.count, 235886 );
 
