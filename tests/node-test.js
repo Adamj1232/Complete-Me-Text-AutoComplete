@@ -25,7 +25,7 @@ describe('Node functionality and tests', () => {
     assert.deepEqual(node.children, {})
   });
 
-  it('should start with the isWord property as false', ()=> {
+  it('should start with the isWord property as 0', ()=> {
 
     assert.deepEqual(node.isWord, 0)
   });
