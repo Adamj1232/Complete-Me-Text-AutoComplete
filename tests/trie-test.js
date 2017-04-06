@@ -1,6 +1,10 @@
 import {assert} from "chai";
 import Trie from '../scripts/Trie';
 import Node from '../scripts/Node';
+const fs = require('fs')
+const text = "/usr/share/dict/words"
+const dictionary = fs.readFileSync(text).toString().trim().split('\n')
+
 require('locus');
 
 describe('Trie functionality and tests', () => {
@@ -17,8 +21,7 @@ describe('Trie functionality and tests', () => {
 
   it('should start with a completed word count of 0', ()=> {
 
-
-    assert.equal(trie.count, 0)
+    assert.equal(trie.count, false)
   });
 
   it('should have the isWord return false if it is not the end of the word', () => {
@@ -91,7 +94,7 @@ describe('Trie functionality and tests', () => {
     let suggest = trie.suggest('wa')
     // console.log(suggest)
 
-    assert.deepEqual(suggest, ['want', 'waltz', 'wait'] );
+    assert.deepEqual(suggest, ['waltz', 'want', 'wait'] );
   });
 
   it('should be able to suggest words based on what is typed so far and what is available in the library', () => {
@@ -107,13 +110,13 @@ describe('Trie functionality and tests', () => {
     let suggest = trie.suggest('ca')
     // console.log(suggest)
 
-    assert.deepEqual(suggest, ['cat', 'calm'] );
+    assert.deepEqual(suggest, ['calm', 'cat'] );
   });
 
   it('should be able to poppulate the library with the computer dictionary', () => {
     let trie = new Trie;
 
-    trie.addDictionary()
+    trie.addDictionary(dictionary)
 
     assert.equal(trie.count, 235886 );
   });
@@ -155,15 +158,15 @@ describe('Trie functionality and tests', () => {
 
     // console.log(JSON.stringify(trie, null, 4))
 
-    assert.deepEqual(suggest, ['jazz', 'jam', 'jack', 'japan'] );
+    assert.deepEqual(suggest, ['jazz', 'jack', 'jam', 'japan'] );
   });
 
   it('should return suggestions ordered by how many times word has been selected in past', () => {
     let trie = new Trie;
 
-    // trie.insert('jam');
-    // trie.insert('jazz');
-    // trie.insert('jack');
+    trie.insert('jam');
+    trie.insert('jazz');
+    trie.insert('jack');
     trie.insert('want');
     trie.insert('watered');
     trie.insert('waltz');
@@ -204,7 +207,7 @@ describe('Trie functionality and tests', () => {
   it('should be able to poppulate the library with the computer dictionary', () => {
     let trie = new Trie;
 
-    trie.addDictionary()
+    trie.addDictionary(dictionary)
 
     assert.equal(trie.count, 235886 );
 

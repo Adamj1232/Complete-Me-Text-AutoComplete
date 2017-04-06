@@ -1,7 +1,4 @@
 import Node from '../scripts/Node'
-const fs = require('fs')
-const text = "/usr/share/dict/words"
-
 
 export default class Trie {
   constructor() {
@@ -23,7 +20,6 @@ export default class Trie {
     currentLetter.isWord = 1;
   }
 
-
   suggest(wordSoFar) {
     let currentLetter  = this.root;
     let letters        = wordSoFar.split('');
@@ -40,21 +36,20 @@ export default class Trie {
 
     let sortedSuggestions = this.sortSuggestion(suggestions)
 
-    let prioritizedSuggestions = sortedSuggestions.map( word => {
-      return word.split(":").pop()
+    let sortedWords = sortedSuggestions.map( wordObj =>{
+      return wordObj.word
     })
 
-    return prioritizedSuggestions
+    return sortedWords
   }
-
-
 
   availableWords(currentLetter, wordSoFar, suggestions) {
     let letterChildren = Object.keys(currentLetter.children);
     let usedCount = currentLetter.isWord
 
     if (currentLetter.isWord > 0) {
-      let countWordSoFar = usedCount + ' :' + wordSoFar
+
+      let countWordSoFar = {count: usedCount,  word: wordSoFar, }
 
       suggestions.push(countWordSoFar)
     }
@@ -67,15 +62,12 @@ export default class Trie {
     return suggestions
   }
 
-
-  addDictionary() {
-    let dictionary = fs.readFileSync(text).toString().trim().split('\n')
-
+  addDictionary(dictionary) {
+    //for loop
     dictionary.forEach( word => {
       this.insert(word)
     })
   }
-
 
   totalWords() {
     return this.count
@@ -83,13 +75,14 @@ export default class Trie {
 
   sortSuggestion(arr) {
     for (let i = 1; i < arr.length; i++) {
-      var numToBeCompared = arr[i];
+      var numToBeCompared = arr[i].count;
+      var swap = arr[i]
 
       for (var j = i - 1; j >= 0; j--) {
-        if (numToBeCompared >= arr[j]) {
+        if (numToBeCompared >= arr[j].count) {
           var sorted = arr[j]
 
-          arr[j] = numToBeCompared
+          arr[j] = swap
           arr[j + 1] = sorted;
         } else {
           break;
@@ -98,7 +91,6 @@ export default class Trie {
     }
     return arr
   }
-
 
   select(wordSelected) {
     let currentLetter  = this.root;
