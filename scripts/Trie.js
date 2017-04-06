@@ -17,7 +17,8 @@ export default class Trie {
       currentLetter = currentLetter.children[letter];
     })
     this.count++;
-    currentLetter.isWord = 1;
+    currentLetter.isWord = true;
+    currentLetter.wordSelectCount = 0
   }
 
   suggest(wordSoFar) {
@@ -45,9 +46,9 @@ export default class Trie {
 
   availableWords(currentLetter, wordSoFar, suggestions) {
     let letterChildren = Object.keys(currentLetter.children);
-    let usedCount = currentLetter.isWord
+    let usedCount = currentLetter.wordSelectCount
 
-    if (currentLetter.isWord > 0) {
+    if (currentLetter.isWord === true) {
 
       let countWordSoFar = {count: usedCount,  word: wordSoFar, }
 
@@ -63,7 +64,6 @@ export default class Trie {
   }
 
   addDictionary(dictionary) {
-    //for loop
     dictionary.forEach( word => {
       this.insert(word)
     })
@@ -102,6 +102,6 @@ export default class Trie {
       }
       return currentLetter;
     })
-    currentLetter.isWord > 0 ? currentLetter.isWord++ : null
+    currentLetter.wordSelectCount++
   }
 }
