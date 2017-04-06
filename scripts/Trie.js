@@ -40,7 +40,7 @@ export default class Trie {
 
     let sortedSuggestions = this.sortSuggestion(suggestions)
 
-    let prioritizedSuggestions = sortedSuggestions.map((word) => {
+    let prioritizedSuggestions = sortedSuggestions.map( word => {
       return word.split(":").pop()
     })
 
@@ -71,7 +71,7 @@ export default class Trie {
   addDictionary() {
     let dictionary = fs.readFileSync(text).toString().trim().split('\n')
 
-    dictionary.forEach(word => {
+    dictionary.forEach( word => {
       this.insert(word)
     })
   }
